@@ -6,9 +6,3 @@ from = "/api/*"
 to = "/.netlify/functions/myFunction"
 status = 200
 force = true
-
-[[redirects]]
-from = "/youtube/v3/*"
-to = "/.netlify/functions/youtube/:splat"
-status = 200
-force = true
