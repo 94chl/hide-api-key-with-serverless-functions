@@ -18,7 +18,6 @@ exports.handler = async (event) => {
   const url = new URL(path, ENDPOINT);
   const parameters = querystring.stringify({
     ...queryStringParameters,
-    key: process.env.API_KEY,
   });
 
   url.search = parameters;
