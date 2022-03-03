@@ -1,36 +1,53 @@
 const fetch = require("node-fetch");
-const urlencode = require("urlencode");
+const querystring = require("querystring");
+const stringify = require("../utils/stringify.js");
+
 const SEARCH_ENDPOINT = "https://api.clinicaltrialskorea.com";
+const headers = {
+  "Access-Control-Allow-Origin": process.env.HOST,
+  "Content-Type": "application/json; charset=utf-8",
+};
 
 exports.handler = async (event) => {
-  try {
-    const { queryStringParameters } = event;
-    const parameters = Object.entries(queryStringParameters)
-      .map(([key, value]) => `${key}=${urlencode.encode(value)}`)
-      .join("&")
-      .concat(`&key=${process.env.API_KEY}`);
-    const URI = `${SEARCH_ENDPOINT}?${parameters}`;
-    const response = await fetch(URI);
-    const { statusCode, statusText, ok, headers } = response;
-    const body = JSON.stringify(await response.json());
+  const {
+    path,
+    queryStringParameters,
+    headers: { referer },
+  } = event;
 
-    headers["Access-Control-Allow-Origin"] = process.env.HOST;
+  const url = new URL(path, SEARCH_ENDPOINT);
+  const parameters = querystring.stringify({
+    ...queryStringParameters,
+    key: process.env.API_KEY,
+  });
+
+  url.search = parameters;
+
+  try {
+    const response = await fetch(url, { headers: { referer } });
+    const body = await response.json();
+
+    if (body.error) {
+      return {
+        statusCode: body.error.code,
+        ok: false,
+        headers,
+        body: stringify(body),
+      };
+    }
 
     return {
-      statusCode,
-      statusText,
-      ok,
+      statusCode: 200,
+      ok: true,
       headers,
-      body,
+      body: stringify(body),
     };
   } catch (error) {
     return {
-      statusCode: 404,
-      statusText: error.message,
+      statusCode: 400,
       ok: false,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers,
+      body: stringify(error),
     };
   }
 };
