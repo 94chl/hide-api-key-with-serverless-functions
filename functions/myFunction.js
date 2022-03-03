@@ -1,7 +1,6 @@
 const fetch = require("node-fetch");
 const urlencode = require("urlencode");
-const SEARCH_ENDPOINT =
-  "https://api.clinicaltrialskorea.com/api/v1/search-conditions/";
+const SEARCH_ENDPOINT = "https://api.clinicaltrialskorea.com";
 
 exports.handler = async (event) => {
   try {
