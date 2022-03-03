@@ -2,8 +2,7 @@ const fetch = require("node-fetch");
 const querystring = require("querystring");
 const stringify = require("../utils/stringify.js");
 
-const ENDPOINT =
-  "https://api.clinicaltrialskorea.com/api/v1/search-conditions/";
+const ENDPOINT = "https://api.clinicaltrialskorea.com/api/v1/search-conditions";
 const headers = {
   "Access-Control-Allow-Origin": process.env.HOST,
   "Content-Type": "application/json; charset=utf-8",
