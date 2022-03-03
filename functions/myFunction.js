@@ -2,7 +2,8 @@ const fetch = require("node-fetch");
 const querystring = require("querystring");
 const stringify = require("../utils/stringify.js");
 
-const GOOGLEAPIS_ORIGIN = "https://www.googleapis.com";
+const ENDPOINT =
+  "https://api.clinicaltrialskorea.com/api/v1/search-conditions/";
 const headers = {
   "Access-Control-Allow-Origin": process.env.HOST,
   "Content-Type": "application/json; charset=utf-8",
@@ -15,7 +16,7 @@ exports.handler = async (event) => {
     headers: { referer },
   } = event;
 
-  const url = new URL(path, GOOGLEAPIS_ORIGIN);
+  const url = new URL(path, ENDPOINT);
   const parameters = querystring.stringify({
     ...queryStringParameters,
     key: process.env.API_KEY,

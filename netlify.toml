@@ -2,8 +2,8 @@
 functions = "./functions"
 
 [[redirects]]
-from = "dummy/youtube/v3/*"
-to = "/.netlify/functions/dummy/:splat"
+from = "/api/*"
+to = "/.netlify/functions/myFunction"
 status = 200
 force = true
 
